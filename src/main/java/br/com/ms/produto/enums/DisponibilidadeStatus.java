@@ -1,6 +1,6 @@
 package br.com.ms.produto.enums;
 
-public enum Disponibilidade {
+public enum DisponibilidadeStatus {
     DISPONIVEL,
     INDISPONIVEL
 }

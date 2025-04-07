@@ -1,7 +1,7 @@
 package br.com.ms.produto;
 
 import br.com.ms.pedido.Pedido;
-import br.com.ms.produto.enums.Disponibilidade;
+import br.com.ms.produto.enums.DisponibilidadeStatus;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -15,6 +15,7 @@ import jakarta.persistence.Table;
 import jakarta.validation.constraints.Positive;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.math.BigDecimal;
@@ -23,6 +24,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Data
+@ToString
 @NoArgsConstructor
 @Entity
 @Table(name = "produtos")
@@ -43,7 +45,7 @@ public class Produto {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private Disponibilidade disponibilidade;
+    private DisponibilidadeStatus disponibilidade;
 
     @Column(nullable = false)
     @Positive(message = "A quantidade deve ser positiva")

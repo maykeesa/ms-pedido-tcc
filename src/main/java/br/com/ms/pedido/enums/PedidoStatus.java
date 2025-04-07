@@ -1,8 +1,8 @@
 package br.com.ms.pedido.enums;
 
-public enum StatusPedido {
+public enum PedidoStatus {
     PENDENTE,
     PROCESSANDO,
     CONCLUIDO,
-    CANCELADO;
+    CANCELADO
 }

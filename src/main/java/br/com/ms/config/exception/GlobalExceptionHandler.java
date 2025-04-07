@@ -1,5 +1,6 @@
 package br.com.ms.config.exception;
 
+import br.com.ms.config.exception.exceptions.ServiceException;
 import br.com.ms.utils.dto.ResponseDto;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.http.ResponseEntity;
@@ -8,6 +9,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import javax.sql.rowset.serial.SerialException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -31,8 +33,26 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(EntityNotFoundException.class)
-    public ResponseEntity<ResponseDto.Body.ResponseError> handlerEntityNotFound(EntityNotFoundException ex){
+    public ResponseEntity<ResponseDto.Body.ResponseError> handlerEntityNotFound(EntityNotFoundException ex) {
         return ResponseEntity.status(NOT_FOUND).body(
                 new ResponseDto.Body.ResponseError(NOT_FOUND.value(), ex.getClass().getSimpleName(), ex.getMessage()));
     }
+
+    @ExceptionHandler(ServiceException.class)
+    public ResponseEntity<ResponseDto.Body.ResponseError> handlerService(ServiceException ex) {
+        return ResponseEntity.status(BAD_REQUEST).body(
+                new ResponseDto.Body.ResponseError(BAD_REQUEST.value(), ex.getClass().getSimpleName(), ex.getMessage()));
+    }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<ResponseDto.Body.ResponseError> handlerIllegalArgument(IllegalArgumentException ex) {
+        if (ex.getMessage().contains("Invalid UUID string:")) {
+            return ResponseEntity.status(BAD_REQUEST).body(
+                    new ResponseDto.Body.ResponseError
+                            (BAD_REQUEST.value(), ex.getClass().getSimpleName(), ex.getMessage()));
+        }
+
+        return null;
+    }
 }
+
