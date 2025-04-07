@@ -16,6 +16,7 @@ import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.math.BigDecimal;
@@ -24,6 +25,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Data
+@ToString
 @NoArgsConstructor
 @Entity
 @Table(name = "pedidos")

@@ -3,6 +3,7 @@ package br.com.ms.produto.service;
 import br.com.ms.produto.Produto;
 import br.com.ms.produto.dto.ProdutoDto;
 import br.com.ms.produto.repository.ProdutoRepository;
+import br.com.ms.produto.service.utils.ProdutoServiceUtils;
 import br.com.ms.utils.service.DtoService;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,13 +23,14 @@ public class ProdutoServiceImpl implements ProdutoService{
     @Autowired
     private ProdutoRepository produtoRepository;
 
+    @Autowired
+    private ProdutoServiceUtils produtoServiceUtils;
+
     @Override
     public Object buscar(String id, Pageable pageable) {
         if(Objects.nonNull(id)){
-            Produto produto = this.produtoRepository.findById(UUID.fromString(id))
-                    .orElseThrow(() -> new EntityNotFoundException(ENTIDADE_NAO_ENCONTRADA.getDescricao()));
-
-            return DtoService.entityToDto(produto, ProdutoDto.Response.Produto.class);
+            return DtoService.entityToDto(produtoServiceUtils
+                    .buscarProduto(UUID.fromString(id)), ProdutoDto.Response.Produto.class);
         }
 
         Page<Produto> produtos = this.produtoRepository.findAll(pageable);
