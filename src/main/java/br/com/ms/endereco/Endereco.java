@@ -1,66 +1,59 @@
-package br.com.ms.produto;
+package br.com.ms.endereco;
 
-import br.com.ms.pedido.Pedido;
-import br.com.ms.produto.enums.DisponibilidadeStatus;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.Positive;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.hibernate.annotations.CreationTimestamp;
 
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.UUID;
 
 @Data
 @ToString
 @NoArgsConstructor
 @Entity
-@Table(name = "produtos")
-public class Produto {
+@Table(name = "enderecos")
+public class Endereco {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
     @Column(nullable = false)
-    private String nome;
+    private String email;
 
     @Column(nullable = false)
-    private String categoria;
+    private String logradouro;
 
     @Column(nullable = false)
-    private String descricao;
+    private Integer numero;
 
     @Column(nullable = false)
-    private BigDecimal preco;
-
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private DisponibilidadeStatus disponibilidade;
+    private String complemento;
 
     @Column(nullable = false)
-    @Positive(message = "A quantidade deve ser positiva")
-    private Integer estoque;
+    private String bairro;
+
+    @Column(nullable = false)
+    private String cidade;
+
+    @Column(nullable = false)
+    private String estado;
+
+    @Column(nullable = false)
+    private String cep;
+
+    @Column(nullable = false)
+    private String pais;
 
     @CreationTimestamp
     private LocalDateTime dataCriacao;
 
     private LocalDateTime dataAtualizacao;
-
-    @ManyToMany(mappedBy = "produtos", fetch = FetchType.LAZY)
-    private List<Pedido> pedidos;
-
 }
-

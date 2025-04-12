@@ -1,9 +1,7 @@
-package br.com.ms.pedido;
+package br.com.ms.categoria;
 
-import br.com.ms.pedido.dto.PedidoDto;
-import br.com.ms.pedido.service.PedidoService;
-import br.com.ms.produto.dto.ProdutoDto;
-import br.com.ms.produto.service.ProdutoService;
+import br.com.ms.categoria.dto.CategoriaDto;
+import br.com.ms.categoria.service.CategoriaService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -20,22 +18,22 @@ import org.springframework.web.bind.annotation.RestController;
 import static org.springframework.http.HttpStatus.CREATED;
 
 @RestController
-@RequestMapping("/pedido")
-public class PedidoController {
+@RequestMapping("/categoria")
+public class CategoriaController {
 
     @Autowired
-    private PedidoService pedidoService;
+    private CategoriaService categoriaService;
 
     @GetMapping
     public ResponseEntity<Object> buscar(
             @RequestParam(required = false) String id,
-            @PageableDefault(sort = "dataCriacao", size = 15, direction = Sort.Direction.DESC) Pageable pageable){
-        return ResponseEntity.ok(this.pedidoService.buscar(id, pageable));
+            @PageableDefault(sort = "nome", size = 15, direction = Sort.Direction.ASC) Pageable pageable){
+        return ResponseEntity.ok(this.categoriaService.buscar(id, pageable));
     }
 
     @PostMapping
-    public ResponseEntity<PedidoDto.Response.Pedido> cadastrar(
-            @RequestBody @Valid PedidoDto.Request.Pedido dto){
-        return ResponseEntity.status(CREATED).body(this.pedidoService.cadastrar(dto));
+    public ResponseEntity<CategoriaDto.Response.Categoria> cadastrar(
+            @RequestBody @Valid CategoriaDto.Request.Categoria dto){
+        return ResponseEntity.status(CREATED).body(this.categoriaService.cadastrar(dto));
     }
 }

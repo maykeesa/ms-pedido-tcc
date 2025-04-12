@@ -1,12 +1,12 @@
-package br.com.ms.utils.enums;
+package br.com.ms.config.exception.enums;
 
-public enum Mensagens {
+public enum MensagensException {
 
     ENTIDADE_NAO_ENCONTRADA("Entidade não encontrada no banco de dados.");
 
     private final String descricao;
 
-    Mensagens(String descricao){
+    MensagensException(String descricao){
         this.descricao = descricao;
     }
 

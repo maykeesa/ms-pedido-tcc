@@ -19,7 +19,7 @@ import java.util.Objects;
 import java.util.UUID;
 
 import static br.com.ms.pedido.enums.PedidoStatus.PENDENTE;
-import static br.com.ms.utils.enums.Mensagens.ENTIDADE_NAO_ENCONTRADA;
+import static br.com.ms.config.exception.enums.MensagensException.ENTIDADE_NAO_ENCONTRADA;
 
 @Service
 public class PedidoServiceImpl implements PedidoService{

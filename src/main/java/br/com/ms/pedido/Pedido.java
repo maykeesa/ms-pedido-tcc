@@ -35,6 +35,15 @@ public class Pedido {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
+    @Column(nullable = false)
+    private String nome;
+
+    @Column(nullable = false)
+    private String cpf;
+
+    @Column(nullable = false)
+    private String email;
+
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "pedido_produtos",
