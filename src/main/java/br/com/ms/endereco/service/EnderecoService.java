@@ -5,7 +5,7 @@ import org.springframework.data.domain.Pageable;
 
 public interface EnderecoService {
 
-    Object buscar(String id, Pageable pageable);
+    Object buscar(String id, String email, Pageable pageable);
 
     EnderecoDto.Response.Endereco cadastrar(EnderecoDto.Request.Endereco dto);
 

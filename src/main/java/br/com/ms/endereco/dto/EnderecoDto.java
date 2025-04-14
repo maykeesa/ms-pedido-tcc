@@ -5,6 +5,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 import static br.com.ms.utils.constants.MensagensConstants.NAO_NULO;
@@ -40,6 +41,21 @@ public class EnderecoDto {
     public enum Response{;
 
         @Data
+        public static class Base {
+            private UUID id;
+            private String logradouro;
+            private Integer numero;
+            private String complemento;
+            private String bairro;
+            private String cidade;
+            private String estado;
+            private String cep;
+            private String pais;
+            private LocalDateTime dataCriacao;
+            private LocalDateTime dataAtualizacao;
+        }
+
+        @Data
         public static class Endereco {
             private UUID id;
             private String email;
@@ -53,6 +69,12 @@ public class EnderecoDto {
             private String pais;
             private LocalDateTime dataCriacao;
             private LocalDateTime dataAtualizacao;
+        }
+
+        @Data
+        public static class Enderecos {
+            private String email;
+            private List<Base> enderecos;
         }
     }
 }

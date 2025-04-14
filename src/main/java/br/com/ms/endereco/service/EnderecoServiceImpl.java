@@ -11,10 +11,12 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
 import static br.com.ms.config.exception.enums.MensagensException.ENTIDADE_NAO_ENCONTRADA;
+import static br.com.ms.config.exception.enums.MensagensException.ENTIDADE_NAO_ENCONTRADA_EMAIL;
 
 @Service
 public class EnderecoServiceImpl implements EnderecoService{
@@ -23,12 +25,30 @@ public class EnderecoServiceImpl implements EnderecoService{
     private EnderecoRepository enderecoRepository;
 
     @Override
-    public Object buscar(String id, Pageable pageable) {
+    public Object buscar(String id, String email, Pageable pageable) {
         if(Objects.nonNull(id)){
             Endereco endereco = this.enderecoRepository.findById(UUID.fromString(id))
                     .orElseThrow(() -> new EntityNotFoundException(ENTIDADE_NAO_ENCONTRADA.getDescricao()));
 
             return DtoService.entityToDto(endereco, EnderecoDto.Response.Endereco.class);
+        }
+
+        if(Objects.nonNull(email)){
+            List<Endereco> enderecos = this.enderecoRepository.findByEmail(email)
+                    .orElseThrow(() -> new EntityNotFoundException(ENTIDADE_NAO_ENCONTRADA.getDescricao()));
+
+            EnderecoDto.Response.Enderecos response = new EnderecoDto.Response.Enderecos();
+            List<EnderecoDto.Response.Base> enderecosDto =
+                    DtoService.entitysToDtos(enderecos, EnderecoDto.Response.Base.class);
+
+            if(enderecos.isEmpty()){
+                throw new EntityNotFoundException(ENTIDADE_NAO_ENCONTRADA_EMAIL.getDescricao());
+            }
+
+            response.setEmail(enderecos.get(0).getEmail());
+            response.setEnderecos(enderecosDto);
+
+            return response;
         }
 
         Page<Endereco> enderecos = this.enderecoRepository.findAll(pageable);
