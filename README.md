@@ -1,10 +1,10 @@
-# MS-Pedidos - ?
+# MS-Pedidos - ğŸ›’
 
-Microsserviço responsável pelo gerenciamento de pedidos no sistema de compras desenvolvido como parte do Trabalho de Conclusão de Curso (TCC) em Ciência da Computação.
+MicrosserviÃ§o responsÃ¡vel pelo gerenciamento de pedidos no sistema de compras desenvolvido como parte do Trabalho de ConclusÃ£o de Curso (TCC) em CiÃªncia da ComputaÃ§Ã£o.
 
 <br>
 
-## ? Tecnologias utilizadas
+## ğŸ§° Tecnologias utilizadas
 
 - Java GraalVM 17
 - Spring Boot 3.3.10
@@ -13,7 +13,7 @@ Microsserviço responsável pelo gerenciamento de pedidos no sistema de compras de
 
 <br>
 
-## ? Colaborador
+## ğŸ¤ Colaborador
 
 <table>
   <tr>
