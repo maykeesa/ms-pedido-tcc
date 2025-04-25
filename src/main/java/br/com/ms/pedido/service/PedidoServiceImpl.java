@@ -53,6 +53,10 @@ public class PedidoServiceImpl implements PedidoService{
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
 
         Pedido pedido = new Pedido();
+        pedido.setNrPedido(this.produtoServiceUtils.gerarNrPedido());
+        pedido.setNome(dto.getNome());
+        pedido.setCpf(dto.getCpf());
+        pedido.setEmail(dto.getEmail());
         pedido.setStatus(PENDENTE);
         pedido.setValorTotal(valorTotal);
         pedido.setProdutos(produtos);

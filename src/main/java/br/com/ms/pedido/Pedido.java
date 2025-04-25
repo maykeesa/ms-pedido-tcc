@@ -36,6 +36,9 @@ public class Pedido {
     private UUID id;
 
     @Column(nullable = false)
+    private String nrPedido;
+
+    @Column(nullable = false)
     private String nome;
 
     @Column(nullable = false)

@@ -2,6 +2,7 @@ package br.com.ms.pedido.dto;
 
 import br.com.ms.pedido.enums.PedidoStatus;
 import br.com.ms.produto.dto.ProdutoDto;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -38,8 +39,10 @@ public class PedidoDto {
     public enum Response{;
 
         @Data
+        @JsonInclude(JsonInclude.Include.NON_NULL)
         public static class Pedido {
             private UUID id;
+            private String nrPedido;
             private String nome;
             private String cpf;
             private String email;
