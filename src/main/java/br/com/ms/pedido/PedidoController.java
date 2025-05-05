@@ -5,6 +5,8 @@ import br.com.ms.pedido.service.PedidoService;
 import br.com.ms.produto.dto.ProdutoDto;
 import br.com.ms.produto.service.ProdutoService;
 import jakarta.validation.Valid;
+import org.springframework.amqp.core.Message;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -26,6 +28,9 @@ public class PedidoController {
     @Autowired
     private PedidoService pedidoService;
 
+    @Autowired
+    private RabbitTemplate rabbitTemplate;
+
     @GetMapping
     public ResponseEntity<Object> buscar(
             @RequestParam(required = false) String id,
@@ -36,6 +41,9 @@ public class PedidoController {
     @PostMapping
     public ResponseEntity<PedidoDto.Response.Pedido> cadastrar(
             @RequestBody @Valid PedidoDto.Request.Pedido dto){
-        return ResponseEntity.status(CREATED).body(this.pedidoService.cadastrar(dto));
+        PedidoDto.Response.Pedido pedido = this.pedidoService.cadastrar(dto);
+
+        this.rabbitTemplate.convertAndSend("pedido.concluido", pedido);
+        return ResponseEntity.status(CREATED).body(pedido);
     }
 }
