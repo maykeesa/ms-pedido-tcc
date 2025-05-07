@@ -47,6 +47,9 @@ public class Pedido {
     @Column(nullable = false)
     private String email;
 
+    @Column(nullable = false)
+    private UUID enderecoId;
+
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "pedido_produtos",

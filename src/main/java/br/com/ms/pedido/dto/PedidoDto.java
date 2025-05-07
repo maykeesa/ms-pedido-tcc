@@ -31,6 +31,8 @@ public class PedidoDto {
             @Email(message = EMAIL)
             @NotBlank(message = NAO_NULO_BRANCO)
             private String email;
+            @NotBlank(message = NAO_NULO_BRANCO)
+            private String enderecoId;
             @NotNull(message = "A lista de produtos não pode ser nula.")
             private List<UUID> produtosIds;
         }
@@ -46,6 +48,7 @@ public class PedidoDto {
             private String nome;
             private String cpf;
             private String email;
+            private UUID enderecoId;
             private List<ProdutoDto.Response.Produto> produtos;
             private BigDecimal valorTotal;
             private PedidoStatus status;

@@ -57,6 +57,7 @@ public class PedidoServiceImpl implements PedidoService{
         pedido.setNome(dto.getNome());
         pedido.setCpf(dto.getCpf());
         pedido.setEmail(dto.getEmail());
+        pedido.setEnderecoId(UUID.fromString(dto.getEnderecoId()));
         pedido.setStatus(PENDENTE);
         pedido.setValorTotal(valorTotal);
         pedido.setProdutos(produtos);

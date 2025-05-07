@@ -2,10 +2,7 @@ package br.com.ms.pedido;
 
 import br.com.ms.pedido.dto.PedidoDto;
 import br.com.ms.pedido.service.PedidoService;
-import br.com.ms.produto.dto.ProdutoDto;
-import br.com.ms.produto.service.ProdutoService;
 import jakarta.validation.Valid;
-import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
