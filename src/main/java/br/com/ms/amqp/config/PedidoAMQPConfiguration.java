@@ -1,4 +1,4 @@
-package br.com.ms.amqp;
+package br.com.ms.amqp.config;
 
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.core.QueueBuilder;
@@ -9,8 +9,13 @@ import org.springframework.context.annotation.Configuration;
 public class PedidoAMQPConfiguration {
 
     @Bean
-    public Queue criarFila(){
+    public Queue criarFilaPedidoConcluido(){
         return QueueBuilder.nonDurable("pedido.concluido").build();
+    }
+
+    @Bean
+    public Queue criarFilaContaValidacao() {
+        return QueueBuilder.nonDurable("pedido.conta.validacao").build();
     }
 
 }

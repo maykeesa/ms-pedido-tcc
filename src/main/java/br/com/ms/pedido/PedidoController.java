@@ -1,5 +1,6 @@
 package br.com.ms.pedido;
 
+import br.com.ms.amqp.PedidoProducer;
 import br.com.ms.pedido.dto.PedidoDto;
 import br.com.ms.pedido.service.PedidoService;
 import jakarta.validation.Valid;
@@ -26,7 +27,7 @@ public class PedidoController {
     private PedidoService pedidoService;
 
     @Autowired
-    private RabbitTemplate rabbitTemplate;
+    private PedidoProducer pedidoProducer;
 
     @GetMapping
     public ResponseEntity<Object> buscar(
@@ -40,7 +41,7 @@ public class PedidoController {
             @RequestBody @Valid PedidoDto.Request.Pedido dto){
         PedidoDto.Response.Pedido pedido = this.pedidoService.cadastrar(dto);
 
-        this.rabbitTemplate.convertAndSend("pedido.concluido", pedido);
+        this.pedidoProducer.enviarPedidoConcluido(pedido);
         return ResponseEntity.status(CREATED).body(pedido);
     }
 }
