@@ -6,4 +6,6 @@ public class MensagensConstants {
     public static final String EMAIL = "O valor tem que ser um email";
     public static final String DISPONIBILIDADE = "Esse campo só pode ser preenchido como 'DISPONIVEL' ou 'INDISPONIVEL'";
     public static final String POSITIVO = "A quantidade deve ser positiva";
+    public static final String METODO_PAGAMENTO = "Esse campo só pode ser preenchido como 'PIX', 'CARTAO_CREDITO', " +
+            "'CARTAO_DEBITO', 'BOLETO', 'DINHEIRO'";
 }

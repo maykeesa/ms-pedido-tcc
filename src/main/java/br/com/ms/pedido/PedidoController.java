@@ -1,10 +1,9 @@
 package br.com.ms.pedido;
 
-import br.com.ms.amqp.PedidoProducer;
+import br.com.ms.amqp.PedidoPublisher;
 import br.com.ms.pedido.dto.PedidoDto;
 import br.com.ms.pedido.service.PedidoService;
 import jakarta.validation.Valid;
-import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -27,7 +26,7 @@ public class PedidoController {
     private PedidoService pedidoService;
 
     @Autowired
-    private PedidoProducer pedidoProducer;
+    private PedidoPublisher pedidoProducer;
 
     @GetMapping
     public ResponseEntity<Object> buscar(

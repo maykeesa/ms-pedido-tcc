@@ -1,7 +1,6 @@
 package br.com.ms.pedido.service;
 
-import br.com.ms.amqp.PedidoProducer;
-import br.com.ms.config.exception.exceptions.ServiceException;
+import br.com.ms.amqp.PedidoPublisher;
 import br.com.ms.pedido.Pedido;
 import br.com.ms.pedido.dto.PedidoDto;
 import br.com.ms.pedido.repository.PedidoRepository;
@@ -33,7 +32,7 @@ public class PedidoServiceImpl implements PedidoService{
     private ProdutoServiceUtils produtoServiceUtils;
 
     @Autowired
-    private PedidoProducer pedidoProducer;
+    private PedidoPublisher pedidoPublisher;
 
     @Override
     public Object buscar(String id, Pageable pageable) {
@@ -57,7 +56,7 @@ public class PedidoServiceImpl implements PedidoService{
         BigDecimal valorTotal = produtos.stream().map(Produto::getPreco)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
 
-        if(!pedidoProducer.validarConta(dto.getEmail())){
+        if(!pedidoPublisher.validarConta(dto.getEmail())){
             throw new EntityNotFoundException("Conta: " + ENTIDADE_NAO_ENCONTRADA.getDescricao());
         }
 
@@ -72,6 +71,9 @@ public class PedidoServiceImpl implements PedidoService{
         pedido.setProdutos(produtos);
 
         Pedido pedidoPersistido = this.pedidoRepository.save(pedido);
-        return DtoService.entityToDto(pedidoPersistido, PedidoDto.Response.Pedido.class);
+        PedidoDto.Response.Pedido pedidoDto = DtoService.entityToDto(pedidoPersistido, PedidoDto.Response.Pedido.class);
+        pedidoDto.setMetodoPagamento(dto.getMetodoPagamento());
+
+        return pedidoDto;
     }
 }
