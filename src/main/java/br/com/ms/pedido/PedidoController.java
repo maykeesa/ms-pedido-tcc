@@ -4,6 +4,7 @@ import br.com.ms.amqp.PedidoPublisher;
 import br.com.ms.pedido.dto.PedidoDto;
 import br.com.ms.pedido.service.PedidoService;
 import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -16,8 +17,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.UUID;
+
 import static org.springframework.http.HttpStatus.CREATED;
 
+@Slf4j
 @RestController
 @RequestMapping("/pedido")
 public class PedidoController {
@@ -38,9 +42,16 @@ public class PedidoController {
     @PostMapping
     public ResponseEntity<PedidoDto.Response.Pedido> cadastrar(
             @RequestBody @Valid PedidoDto.Request.Pedido dto){
-        PedidoDto.Response.Pedido pedido = this.pedidoService.cadastrar(dto);
+        log.info("----------------------------------------------------");
+        log.info("Pedido | Inicio cadastrar()");
+        PedidoDto.Response.Pedido response = this.pedidoService.cadastrar(dto);
+        log.info("Pedido | Fim cadastrar()");
+        log.info("----------------------------------------------------");
 
-        this.pedidoProducer.enviarPedidoConcluido(pedido);
-        return ResponseEntity.status(CREATED).body(pedido);
+        log.info("Pedido -> Pagamento | Envio do pedido.");
+        this.pedidoProducer.enviarPedidoConcluido(response, UUID.fromString(dto.getContaId()));
+        log.info("Pedido -> Pagamento | Envio finalizado do pedido.");
+        log.info("----------------------------------------------------");
+        return ResponseEntity.status(CREATED).body(response);
     }
 }

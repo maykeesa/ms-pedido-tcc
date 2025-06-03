@@ -26,15 +26,7 @@ public class PedidoDto {
         @Data
         public static class Pedido {
             @NotBlank(message = NAO_NULO_BRANCO)
-            private String nome;
-            @Size(min = 11, max = 11, message = "O valor tem que ter 11 caractéres.")
-            @NotBlank(message = NAO_NULO_BRANCO)
-            private String cpf;
-            @Email(message = EMAIL)
-            @NotBlank(message = NAO_NULO_BRANCO)
-            private String email;
-            @NotBlank(message = NAO_NULO_BRANCO)
-            private String enderecoId;
+            private String contaId;
             @Pattern(regexp = "PIX|CARTAO_CREDITO|CARTAO_DEBITO|BOLETO",
                     message = METODO_PAGAMENTO)
             @NotNull(message = NAO_NULO_BRANCO)
@@ -50,6 +42,7 @@ public class PedidoDto {
         @JsonInclude(JsonInclude.Include.NON_NULL)
         public static class Pedido {
             private UUID id;
+            private UUID contaId;
             private String nrPedido;
             private String nome;
             private String cpf;

@@ -15,7 +15,7 @@ public class PedidoAMQPConfiguration {
 
     @Bean
     public Queue criarFilaContaValidacao() {
-        return QueueBuilder.nonDurable("pedido.conta.validacao").build();
+        return QueueBuilder.nonDurable("pedido.conta").build();
     }
 
 }

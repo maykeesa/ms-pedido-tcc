@@ -5,6 +5,7 @@ import br.com.ms.produto.service.ProdutoService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -24,6 +25,7 @@ import java.util.UUID;
 
 import static org.springframework.http.HttpStatus.CREATED;
 
+@Slf4j
 @RestController
 @RequestMapping("/produto")
 public class ProdutoController {
@@ -41,7 +43,13 @@ public class ProdutoController {
     @PostMapping
     public ResponseEntity<ProdutoDto.Response.Produto> cadastrar(
             @RequestBody @Valid ProdutoDto.Request.Produto dto){
-        return ResponseEntity.status(CREATED).body(this.produtoService.cadastrar(dto));
+        log.info("----------------------------------------------------");
+        log.info("Produto | Inicio cadastrar()");
+        ResponseEntity<ProdutoDto.Response.Produto> response =
+                ResponseEntity.status(CREATED).body(this.produtoService.cadastrar(dto));
+        log.info("Produto | Fim cadastrar()");
+        log.info("----------------------------------------------------");
+        return response;
     }
 
     @DeleteMapping("/{id}")

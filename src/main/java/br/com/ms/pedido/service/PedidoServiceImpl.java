@@ -1,6 +1,7 @@
 package br.com.ms.pedido.service;
 
 import br.com.ms.amqp.PedidoPublisher;
+import br.com.ms.amqp.conta.dto.ContaDto;
 import br.com.ms.pedido.Pedido;
 import br.com.ms.pedido.dto.PedidoDto;
 import br.com.ms.pedido.repository.PedidoRepository;
@@ -56,22 +57,24 @@ public class PedidoServiceImpl implements PedidoService{
         BigDecimal valorTotal = produtos.stream().map(Produto::getPreco)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
 
-        if(!pedidoPublisher.validarConta(dto.getEmail())){
+        ContaDto.Response.Conta conta = pedidoPublisher.buscarConta(UUID.fromString(dto.getContaId()));
+        if(Objects.isNull(conta)){
             throw new EntityNotFoundException("Conta: " + ENTIDADE_NAO_ENCONTRADA.getDescricao());
         }
 
         Pedido pedido = new Pedido();
         pedido.setNrPedido(this.produtoServiceUtils.gerarNrPedido());
-        pedido.setNome(dto.getNome());
-        pedido.setCpf(dto.getCpf());
-        pedido.setEmail(dto.getEmail());
-        pedido.setEnderecoId(UUID.fromString(dto.getEnderecoId()));
+        pedido.setNome(conta.getNome());
+        pedido.setCpf(conta.getCpf());
+        pedido.setEmail(conta.getEmail());
+        pedido.setEnderecoId(conta.getEnderecos().get(0).getId());
         pedido.setStatus(PENDENTE);
         pedido.setValorTotal(valorTotal);
         pedido.setProdutos(produtos);
 
         Pedido pedidoPersistido = this.pedidoRepository.save(pedido);
         PedidoDto.Response.Pedido pedidoDto = DtoService.entityToDto(pedidoPersistido, PedidoDto.Response.Pedido.class);
+        pedidoDto.setContaId(null);
         pedidoDto.setMetodoPagamento(dto.getMetodoPagamento());
 
         return pedidoDto;
